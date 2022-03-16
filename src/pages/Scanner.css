@@ -1,0 +1,14 @@
+.controls {
+  position: absolute;
+  z-index: 999;
+}
+
+.camera-select {
+  top:0;
+  left:0;
+}
+
+.close-button {
+  top:0;
+  right:0;
+}

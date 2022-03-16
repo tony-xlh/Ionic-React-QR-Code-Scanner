@@ -1,22 +1,21 @@
 import { DBR, ScanRegion } from 'capacitor-plugin-dynamsoft-barcode-reader';
 import { useEffect } from 'react';
 
-
-const QRCodeScanner = (props: { active: boolean; 
+const QRCodeScanner = (props: { isActive: boolean; 
   cameraID?: string;
   resolution?: number;
   torchOn?: boolean; 
-  zoom?: number; 
+  zoom?: number;
   scanRegion?:ScanRegion}) => {
 
   useEffect(() => {
     console.log("update active");
-    if (props.active) {
-      DBR.stopScan();
-    }else{
+    if (props.isActive) {
       DBR.startScan();
+    }else{
+      DBR.stopScan();
     }
-  }, [props.active]);
+  }, [props.isActive]);
 
   useEffect(() => {
     if (props.torchOn != undefined) {
@@ -37,7 +36,7 @@ const QRCodeScanner = (props: { active: boolean;
   }, [props.zoom]);
 
   useEffect(() => {
-    if (props.cameraID != undefined) {
+    if (props.cameraID != undefined && props.cameraID != "") {
       DBR.selectCamera({cameraID:props.cameraID});
     }
   }, [props.cameraID]);

@@ -30,8 +30,9 @@ import { Redirect, Route } from 'react-router';
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
+const App: React.FC = () => {
+  return (
+    <IonApp style={{zIndex:999}}>
     <IonReactRouter>
       <IonRouterOutlet>
         <Route path="/home" component={Home} exact={true} />
@@ -40,6 +41,7 @@ const App: React.FC = () => (
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
-);
+  );
+}
 
 export default App;
