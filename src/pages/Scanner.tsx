@@ -46,7 +46,7 @@ const Scanner = (props:RouteComponentProps) => {
       if (state.continuousScan != undefined) {
         continuousScan = state.continuousScan;
       }
-      if (state.qrcodeOnly != undefined) {
+      if (state.qrcodeOnly != undefined && initialized) {
         qrcodeOnly = state.qrcodeOnly;
         setQRCodeRuntimeSettings();
       }
