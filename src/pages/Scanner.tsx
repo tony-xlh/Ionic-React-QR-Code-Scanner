@@ -1,5 +1,5 @@
 import { IonPage } from "@ionic/react";
-import { DBR, TextResult } from "capacitor-plugin-dynamsoft-barcode-reader";
+import { DBR, ScanResult, TextResult } from "capacitor-plugin-dynamsoft-barcode-reader";
 import { useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import QRCodeScanner from "../components/QRCodeScanner";
@@ -11,9 +11,12 @@ let qrcodeOnly = true;
 const Scanner = (props:RouteComponentProps) => {
   const [initialized,setInitialized] = useState(false);
   const [cameras,setCameras] = useState([] as string[]);
+  const [barcodeResults,setBarcodeResults] = useState([] as TextResult[]);
   const [isActive,setIsActive] = useState(true);
   const [torchOn,setTorchOn] = useState(false);
   const [cameraID,setCameraID] = useState("");
+  const [frameWidth,setFrameWidth] = useState(1920);
+  const [frameHeight,setFrameHeight] = useState(1080);
   const state = props.location.state as { continuousScan: boolean; qrcodeOnly: boolean; active: boolean; result?: string};
 
   const loadCameras = async () => {
@@ -66,10 +69,22 @@ const Scanner = (props:RouteComponentProps) => {
           setInitialized(true);
           loadCameras();
           setQRCodeRuntimeSettings();
-          DBR.addListener('onFrameRead', async (retObj) => {
-            let results = retObj["results"];
+          DBR.addListener('onFrameRead', async (scanResult:ScanResult) => {
+            let results = scanResult["results"];
             if (continuousScan) {
               console.log(results);
+              if (scanResult.deviceOrientation) {
+                if (scanResult.deviceOrientation == "portrait") {
+                  if (frameWidth>frameHeight){
+                    const height = frameWidth;
+                    const width = frameHeight;
+                    setFrameHeight(height);
+                    setFrameWidth(width);
+                    alert(width+"x"+height);
+                  }
+                }
+              }
+              setBarcodeResults(results);
             }else{
               if (results.length>0) {
                 setIsActive(false);
@@ -82,6 +97,15 @@ const Scanner = (props:RouteComponentProps) => {
                 props.history.goBack();
               }
             }
+          });
+          DBR.addListener("onPlayed", (result:{resolution:string}) => {
+            alert("on played");
+            alert(result.resolution);
+            console.log("onPlayed");
+            console.log(result);
+            let resolution: string = result.resolution;
+            setFrameWidth(parseInt(resolution.split("x")[0]));
+            setFrameHeight(parseInt(resolution.split("x")[1]));
           });
         }
       }
@@ -98,6 +122,14 @@ const Scanner = (props:RouteComponentProps) => {
   const onClosed = () => {
     setIsActive(false);
     props.history.goBack();
+  }
+
+  const getPointsData = (lr:TextResult) => {
+    let pointsData = lr.x1+","+lr.y1 + " ";
+    pointsData = pointsData+ lr.x2+","+lr.y2 + " ";
+    pointsData = pointsData+ lr.x3+","+lr.y3 + " ";
+    pointsData = pointsData+ lr.x4+","+lr.y4;
+    return pointsData;
   }
 
   if (initialized == false) {
@@ -121,6 +153,18 @@ const Scanner = (props:RouteComponentProps) => {
             ))}
             </select>
             <button className="close-button controls" onClick={onClosed}>Close</button>
+            <svg
+              viewBox={"0 0 "+frameWidth+" "+frameHeight}
+              className="overlay"
+              xmlns="<http://www.w3.org/2000/svg>"
+            >
+              {barcodeResults.map(tr => (
+                    <polygon xmlns="<http://www.w3.org/2000/svg>"
+                    points={getPointsData(tr)}
+                    className="barcode-polygon"
+                    />
+                ))}
+            </svg>
         </div>
         }
       
