@@ -105,6 +105,12 @@ const Scanner = (props:RouteComponentProps) => {
     init();
     scanned = false;
     setIsActive(true);
+    document.addEventListener('ionBackButton', (ev:any) => {
+      ev.detail.register(10, () => {
+        setIsActive(false);
+        props.history.goBack();
+      });
+    });
   }, []);
   
   const onCameraSelected = (e: any) => {
