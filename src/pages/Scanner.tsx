@@ -5,7 +5,8 @@ import { RouteComponentProps } from "react-router";
 import QRCodeScanner from "../components/QRCodeScanner";
 import "./Scanner.css"
 
-
+let selectedCam = "";
+let scanned = false;
 
 const Scanner = (props:RouteComponentProps) => {
   const [initialized,setInitialized] = useState(false);
@@ -17,12 +18,20 @@ const Scanner = (props:RouteComponentProps) => {
   const [frameWidth,setFrameWidth] = useState(1920);
   const [frameHeight,setFrameHeight] = useState(1080);
   const [viewBox,setViewBox] = useState("0 0 1920 1080");
-  let scanned = false;
 
   const loadCameras = async () => {
     let result = await DBR.getAllCameras();
     if (result.cameras){
       setCameras(result.cameras);
+    }
+  }
+
+  const updateSelectedCamera = async () => {
+    let selectedCameraResult = await DBR.getSelectedCamera();
+    console.log(selectedCameraResult);
+    if (selectedCameraResult.selectedCamera) {
+      selectedCam = selectedCameraResult.selectedCamera;
+      setCameraID(selectedCameraResult.selectedCamera);
     }
   }
 
@@ -55,6 +64,7 @@ const Scanner = (props:RouteComponentProps) => {
           loadCameras();
           setQRCodeRuntimeSettings(state.qrcodeOnly);
           DBR.addListener('onFrameRead', async (scanResult:ScanResult) => {
+            console.log("frame read camera id: "+selectedCam);
             let results = scanResult["results"];
             if (state.continuousScan) {
               if (scanResult.frameOrientation != undefined && scanResult.deviceOrientation != undefined) {
@@ -87,6 +97,7 @@ const Scanner = (props:RouteComponentProps) => {
             setFrameWidth(width);
             setFrameHeight(height);
             updateViewBox(width,height);
+            updateSelectedCamera();
           });
         }
       }
@@ -97,7 +108,8 @@ const Scanner = (props:RouteComponentProps) => {
   }, []);
   
   const onCameraSelected = (e: any) => {
-    setCameraID(e.target.value);
+    selectedCam = e.target.value;
+    setCameraID(selectedCam);
   }
 
   const onClosed = () => {
@@ -122,6 +134,8 @@ const Scanner = (props:RouteComponentProps) => {
       width = frameWidth;
       height = frameHeight;
     }
+    const frontCam:boolean = isFront();
+    console.log("front cam: "+frontCam);
     for (let i = 1; i < 5; i++) {
       let x = result["x"+i];
       let y = result["y"+i];
@@ -132,28 +146,28 @@ const Scanner = (props:RouteComponentProps) => {
         case 0:
           rotatedX = x;
           rotatedY = y;
-          if (isFront() == true){ //front cam landscape
+          if (frontCam == true){ //front cam landscape
             rotatedX = width - rotatedX;
           }
           break;
         case 90:
           rotatedX = width - y;
           rotatedY = x;
-          if (isFront() == true){ //front cam portrait
+          if (frontCam == true){ //front cam portrait
             rotatedY = height - rotatedY;
           }
           break;
         case 180:
           rotatedX = width - x;
           rotatedY = height - y;
-          if (isFront() == true){ //front cam landscape
+          if (frontCam == true){ //front cam landscape
             rotatedX = width - rotatedX;
           }
           break;
         case 270:
           rotatedX = height - y;
           rotatedY = width - x;
-          if (isFront() == true){ //front cam portrait
+          if (frontCam == true){ //front cam portrait
             rotatedY = height - rotatedY;
           }
           break;
@@ -167,10 +181,10 @@ const Scanner = (props:RouteComponentProps) => {
   }
 
   const isFront = () => {
-    if (cameraID == "") {
+    if (selectedCam === "") {
       return false;
     }
-    if (cameraID.toUpperCase().indexOf("BACK") != -1) { //is back cam
+    if (selectedCam.toUpperCase().indexOf("BACK") != -1) { //is back cam
       return false;
     }else{
       return true;

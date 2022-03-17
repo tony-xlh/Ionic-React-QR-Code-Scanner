@@ -36,9 +36,18 @@ const QRCodeScanner = (props: { isActive: boolean;
   }, [props.zoom]);
 
   useEffect(() => {
-    if (props.cameraID != undefined && props.cameraID != "") {
-      DBR.selectCamera({cameraID:props.cameraID});
+    const selectCamera = async () => {
+      if (props.cameraID != undefined && props.cameraID != "") {
+        let result = await DBR.getSelectedCamera();
+        if (result.selectedCamera) {
+          if (result.selectedCamera == props.cameraID){
+            return;
+          }
+        }
+        DBR.selectCamera({cameraID:props.cameraID});
+      }
     }
+    selectCamera();
   }, [props.cameraID]);
 
   useEffect(() => {
