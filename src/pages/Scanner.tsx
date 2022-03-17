@@ -60,7 +60,7 @@ const Scanner = (props:RouteComponentProps) => {
       console.log(result);
       if (result) {
         if (result.success == true) {
-          DBR.setResolution({resolution:EnumResolution.RESOLUTION_720P});
+          DBR.setResolution({resolution:EnumResolution.RESOLUTION_480P});
           setInitialized(true);
           loadCameras();
           setQRCodeRuntimeSettings(state.qrcodeOnly);
