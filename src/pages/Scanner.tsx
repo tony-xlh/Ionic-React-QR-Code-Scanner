@@ -6,6 +6,8 @@ import QRCodeScanner from "../components/QRCodeScanner";
 import "./Scanner.css"
 
 let selectedCam = "";
+let currentWidth = 1920;
+let currentHeight = 1080;
 let scanned = false;
 
 const Scanner = (props:RouteComponentProps) => {
@@ -15,8 +17,6 @@ const Scanner = (props:RouteComponentProps) => {
   const [isActive,setIsActive] = useState(false);
   const [torchOn,setTorchOn] = useState(false);
   const [cameraID,setCameraID] = useState("");
-  const [frameWidth,setFrameWidth] = useState(1920);
-  const [frameHeight,setFrameHeight] = useState(1080);
   const [viewBox,setViewBox] = useState("0 0 1920 1080");
 
   const loadCameras = async () => {
@@ -71,7 +71,7 @@ const Scanner = (props:RouteComponentProps) => {
                 for (let index = 0; index < results.length; index++) {
                   handleRotation(results[index], scanResult.deviceOrientation, scanResult.frameOrientation);
                 }
-                updateViewBox(frameWidth,frameHeight,scanResult.deviceOrientation);
+                updateViewBox(scanResult.deviceOrientation);
               }
               setBarcodeResults(results);
             }else{
@@ -94,9 +94,10 @@ const Scanner = (props:RouteComponentProps) => {
             const resolution: string = result.resolution;
             const width = parseInt(resolution.split("x")[0]);
             const height = parseInt(resolution.split("x")[1]);
-            setFrameWidth(width);
-            setFrameHeight(height);
-            updateViewBox(width,height);
+            console.log("new res: "+width+"x"+height);
+            currentWidth = width;
+            currentHeight = height;
+            updateViewBox();
             updateSelectedCamera();
           });
         }
@@ -134,11 +135,11 @@ const Scanner = (props:RouteComponentProps) => {
   const handleRotation = (result:any, orientation: string, rotation:number) => {
     let width,height;
     if (orientation == "portrait") {
-      width = frameHeight;
-      height = frameWidth;
+      width = currentHeight;
+      height = currentWidth;
     }else{
-      width = frameWidth;
-      height = frameHeight;
+      width = currentWidth;
+      height = currentHeight;
     }
     const frontCam:boolean = isFront();
     console.log("front cam: "+frontCam);
@@ -197,11 +198,12 @@ const Scanner = (props:RouteComponentProps) => {
     }
   }
 
-  const updateViewBox = (width:number, height:number, deviceOrientation?:string) => {
-    let box:string = "0 0 "+width+" "+height;
+  const updateViewBox = (deviceOrientation?:string) => {
+    let box:string = "0 0 "+currentWidth+" "+currentHeight;
     if (deviceOrientation && deviceOrientation == "portrait") {
-      box = "0 0 "+height+" "+width;
+      box = "0 0 "+currentHeight+" "+currentWidth;
     }
+    console.log("updated box: "+box);
     setViewBox(box);
   }
 
