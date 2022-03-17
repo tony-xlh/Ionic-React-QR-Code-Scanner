@@ -1,5 +1,5 @@
 import { IonPage } from "@ionic/react";
-import { DBR, ScanResult, TextResult } from "capacitor-plugin-dynamsoft-barcode-reader";
+import { DBR, EnumResolution, ScanResult, TextResult } from "capacitor-plugin-dynamsoft-barcode-reader";
 import { useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import QRCodeScanner from "../components/QRCodeScanner";
@@ -60,11 +60,11 @@ const Scanner = (props:RouteComponentProps) => {
       console.log(result);
       if (result) {
         if (result.success == true) {
+          DBR.setResolution({resolution:EnumResolution.RESOLUTION_720P});
           setInitialized(true);
           loadCameras();
           setQRCodeRuntimeSettings(state.qrcodeOnly);
           DBR.addListener('onFrameRead', async (scanResult:ScanResult) => {
-            console.log("frame read camera id: "+selectedCam);
             let results = scanResult["results"];
             if (state.continuousScan) {
               if (scanResult.frameOrientation != undefined && scanResult.deviceOrientation != undefined) {
@@ -94,7 +94,7 @@ const Scanner = (props:RouteComponentProps) => {
             const resolution: string = result.resolution;
             const width = parseInt(resolution.split("x")[0]);
             const height = parseInt(resolution.split("x")[1]);
-            console.log("new res: "+width+"x"+height);
+            alert("new res: "+width+"x"+height);
             currentWidth = width;
             currentHeight = height;
             updateViewBox();
