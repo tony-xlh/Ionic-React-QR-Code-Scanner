@@ -90,7 +90,7 @@ const Scanner = (props:RouteComponentProps) => {
             const resolution: string = result.resolution;
             const width = parseInt(resolution.split("x")[0]);
             const height = parseInt(resolution.split("x")[1]);
-            alert("new res: "+width+"x"+height);
+            //alert("new res: "+width+"x"+height);
             currentWidth = width;
             currentHeight = height;
             updateViewBox();
