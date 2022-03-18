@@ -60,6 +60,7 @@ const Scanner = (props:RouteComponentProps) => {
       console.log(result);
       if (result) {
         if (result.success == true) {
+          DBR.removeAllListeners();
           DBR.addListener('onFrameRead', async (scanResult:ScanResult) => {
             let results = scanResult["results"];
             if (state.continuousScan) {
