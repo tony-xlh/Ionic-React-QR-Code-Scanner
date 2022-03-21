@@ -215,6 +215,11 @@ const Scanner = (props:RouteComponentProps) => {
     setViewBox(box);
   }
 
+  const getDisplayHeight = () => {
+    console.log("viewbox"+viewBox);
+    return parseInt(viewBox.split("x")[3]);
+  }
+
   if (initialized == false) {
     return <div style={{zIndex: 999}}><p>Initializing</p></div>
   }
@@ -248,6 +253,14 @@ const Scanner = (props:RouteComponentProps) => {
                     className="barcode-polygon"
                     />
                 ))}
+              {barcodeResults.map((tr,idx) => (
+                  <text key={"text-"+idx} xmlns="<http://www.w3.org/2000/svg>"
+                  x={tr.x1}
+                  y={tr.y1}
+                  fill="red"
+                  fontSize={getDisplayHeight()/460*20}
+                  >{tr.barcodeText}</text>
+              ))}
             </svg>
         </div>
         }
