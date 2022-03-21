@@ -5,12 +5,14 @@ import { RouteComponentProps } from "react-router";
 import { addOutline, ellipsisHorizontalOutline, flashlightOutline, removeOutline} from 'ionicons/icons';
 import QRCodeScanner from "../components/QRCodeScanner";
 import "./Scanner.css"
+import { PluginListenerHandle } from "@capacitor/core";
 
 let selectedCam = "";
 let currentWidth = 1920;
 let currentHeight = 1080;
 let scanned = false;
-
+let frameReadListener:PluginListenerHandle|undefined;
+let onPlayedListener:PluginListenerHandle|undefined;
 let presetResolutions = [{label:"ask 480P",value:EnumResolution.RESOLUTION_480P},
                          {label:"ask 720P",value:EnumResolution.RESOLUTION_720P},
                          {label:"ask 1080P",value:EnumResolution.RESOLUTION_1080P}]
@@ -77,8 +79,13 @@ const Scanner = (props:RouteComponentProps) => {
       console.log(result);
       if (result) {
         if (result.success == true) {
-          DBR.removeAllListeners();
-          DBR.addListener('onFrameRead', async (scanResult:ScanResult) => {
+          if (frameReadListener) {
+            frameReadListener.remove();
+          }
+          if (onPlayedListener) {
+            onPlayedListener.remove();
+          }
+          frameReadListener = await DBR.addListener('onFrameRead', async (scanResult:ScanResult) => {
             let results = scanResult["results"];
             if (state.continuousScan == true) {
               if (scanResult.frameOrientation != undefined && scanResult.deviceOrientation != undefined) {
@@ -97,7 +104,7 @@ const Scanner = (props:RouteComponentProps) => {
               }
             }
           });
-          DBR.addListener("onPlayed", (result:{resolution:string}) => {
+          onPlayedListener = await DBR.addListener("onPlayed", (result:{resolution:string}) => {
             console.log("onPlayed");
             console.log(result);
             const resolution: string = result.resolution;
