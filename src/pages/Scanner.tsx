@@ -277,11 +277,11 @@ const Scanner = (props:RouteComponentProps) => {
   }
 
   if (initialized == false) {
-    return <div style={{zIndex: 999}}><p>Initializing</p></div>
+    return <IonPage><p>Initializing</p></IonPage>
   }
 
   return (
-    <IonPage className="scanner">
+    <IonPage>
       <QRCodeScanner 
         isActive={isActive}
         cameraID={cameraID}
