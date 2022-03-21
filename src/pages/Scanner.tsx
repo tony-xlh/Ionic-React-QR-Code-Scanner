@@ -67,7 +67,7 @@ const Scanner = (props:RouteComponentProps) => {
 
   useEffect(() => {
     console.log("on mount");
-    const state = props.location.state as { continuousScan: boolean; qrcodeOnly: boolean; active: boolean; result?: string};
+    const state = props.location.state as { continuousScan: boolean; qrcodeOnly: boolean; active: boolean; };
     console.log(state);
     if (state && state.active != true) {
       return;
@@ -80,7 +80,7 @@ const Scanner = (props:RouteComponentProps) => {
           DBR.removeAllListeners();
           DBR.addListener('onFrameRead', async (scanResult:ScanResult) => {
             let results = scanResult["results"];
-            if (state.continuousScan) {
+            if (state.continuousScan == true) {
               if (scanResult.frameOrientation != undefined && scanResult.deviceOrientation != undefined) {
                 for (let index = 0; index < results.length; index++) {
                   handleRotation(results[index], scanResult.deviceOrientation, scanResult.frameOrientation);
@@ -113,18 +113,22 @@ const Scanner = (props:RouteComponentProps) => {
           setQRCodeRuntimeSettings(state.qrcodeOnly);
           loadCameras();
           setInitialized(true);
+          setIsActive(true);
         }
       }
     }
     init();
     scanned = false;
-    setIsActive(true);
+    
     document.addEventListener('ionBackButton', (ev:any) => {
       ev.detail.register(10, () => {
         setIsActive(false);
         props.history.goBack();
       });
     });
+    return ()=>{
+      console.log("unmount");
+    }
   }, []);
   
   const onCameraSelected = (e: any) => {
