@@ -10,6 +10,10 @@ let currentWidth = 1920;
 let currentHeight = 1080;
 let scanned = false;
 
+let presetResolutions = [{label:"ask 480P",value:EnumResolution.RESOLUTION_480P},
+                         {label:"ask 720P",value:EnumResolution.RESOLUTION_720P},
+                         {label:"ask 1080P",value:EnumResolution.RESOLUTION_1080P}]
+
 const Scanner = (props:RouteComponentProps) => {
   const [initialized,setInitialized] = useState(false);
   const [cameras,setCameras] = useState([] as string[]);
@@ -23,6 +27,8 @@ const Scanner = (props:RouteComponentProps) => {
                                                 measuredByPercentage:1
                                                 });
   const [cameraID,setCameraID] = useState("");
+  const [resolution,setResolution] = useState(EnumResolution.RESOLUTION_720P);
+  const [resolutionLabel,setResolutionLabel] = useState("");
   const [viewBox,setViewBox] = useState("0 0 1920 1080");
 
   const loadCameras = async () => {
@@ -102,6 +108,7 @@ const Scanner = (props:RouteComponentProps) => {
             currentHeight = height;
             updateViewBox();
             updateSelectedCamera();
+            setResolutionLabel(resolution);
           });
 
           setInitialized(true);
@@ -125,6 +132,10 @@ const Scanner = (props:RouteComponentProps) => {
   const onCameraSelected = (e: any) => {
     selectedCam = e.target.value;
     setCameraID(selectedCam);
+  }
+
+  const onResolutionSelected = (e: any) => {
+    setResolution(e.target.value);
   }
 
   const onClosed = () => {
@@ -228,6 +239,7 @@ const Scanner = (props:RouteComponentProps) => {
       <QRCodeScanner 
         isActive={isActive}
         cameraID={cameraID}
+        resolution={resolution}
         torchOn={torchOn}
         scanRegion={scanRegion}/>
 
@@ -237,6 +249,18 @@ const Scanner = (props:RouteComponentProps) => {
             {cameras.map((camera,idx) => (
               <option key={idx} value={camera}>
                 {camera}
+              </option>
+            ))}
+          </select>
+          <select value={resolutionLabel} className="resolution-select controls" onChange={(e) => onResolutionSelected(e)}>
+            {resolution &&
+              <option value={resolution}>
+              {"got "+resolutionLabel}
+              </option>
+            }
+            {presetResolutions.map((res,idx) => (
+              <option key={idx} value={res.value}>
+                {res.label}
               </option>
             ))}
           </select>

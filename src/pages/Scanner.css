@@ -9,6 +9,13 @@
   height: 20px;
 }
 
+.resolution-select {
+  top:20px;
+  left:0;
+  height: 20px;
+}
+
+
 .close-button {
   top:0;
   right:0;
