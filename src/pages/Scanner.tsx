@@ -92,12 +92,7 @@ const Scanner = (props:RouteComponentProps) => {
               if (results.length>0 && scanned == false) {
                 setIsActive(false);
                 scanned = true;
-                let result = "";
-                for (let index = 0; index < results.length; index++) {
-                  const tr:TextResult = results[index];
-                  result = result + tr.barcodeFormat + ": " + tr.barcodeText + "\n";
-                }
-                props.history.replace({ state: {result:result,active:false} });
+                props.history.replace({ state: {results:results,active:false} });
                 props.history.goBack();
               }
             }
@@ -345,7 +340,7 @@ const Scanner = (props:RouteComponentProps) => {
                   points={getPointsData(tr)}
                   className="barcode-polygon"
                   />
-              ))}
+            ))}
             {barcodeResults.map((tr,idx) => (
                 <text key={"text-"+idx} xmlns="<http://www.w3.org/2000/svg>"
                 x={tr.x1}

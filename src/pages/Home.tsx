@@ -1,19 +1,21 @@
-import { IonButton, IonCheckbox, IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+import { IonButton, IonCheckbox, IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonTitle, IonToolbar, useIonToast } from "@ionic/react";
+import { TextResult } from "capacitor-plugin-dynamsoft-barcode-reader";
 import { useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router";
+import copy from 'copy-to-clipboard';
 
 const Home = (props:RouteComponentProps) => {
   const [continuousScan, setContinuousScan] = useState(false);
+  const [present, dismiss] = useIonToast();
   const [QRcodeOnly, setQRcodeOnly] = useState(true);
-  const [result, setResult] = useState("");
+  const [barcodeResults, setBarcodeResults] = useState([] as TextResult[]);
 
   useEffect(() => {
-    const state = props.location.state as { result?: string };
+    const state = props.location.state as { results?: TextResult[] };
     console.log(state);
     if (state) {
-      if (state.result) {
-        let result = state.result;
-        setResult(result);
+      if (state.results) {
+        setBarcodeResults(state.results);
         props.history.replace({ state: {} });
       }
     }
@@ -31,6 +33,12 @@ const Home = (props:RouteComponentProps) => {
 
   const startScan = () => {
     props.history.push("Scanner",{continuousScan:continuousScan,qrcodeOnly:QRcodeOnly,active:true})
+  }
+
+  const copyBarcode = (text:string) => {
+    if (copy(text)){
+      present("copied",500);
+    }
   }
 
   return (
@@ -51,10 +59,12 @@ const Home = (props:RouteComponentProps) => {
             <IonLabel>Scan QR Code Only</IonLabel>
             <IonCheckbox slot="end" value="Scan QR Code Only" checked={QRcodeOnly} onIonChange={(e) => handleOption(e)}/>
           </IonItem>
+          {barcodeResults.map((tr,idx) => (
+            <IonItem key={idx}>
+              <IonLabel onClick={() =>{copyBarcode(tr.barcodeText)}} key={"label-"+idx}>{tr.barcodeFormat + ": " + tr.barcodeText}</IonLabel>
+            </IonItem>
+          ))}
         </IonList>
-        <pre>{result}</pre>
-       
-        
       </IonContent>
     </IonPage>
   );
