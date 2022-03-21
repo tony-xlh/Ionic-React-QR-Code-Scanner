@@ -1,6 +1,6 @@
 .scanner {
   z-index: 999;
-  padding-top: var("--ion-statusbar-padding");
+  padding-top: env(statusbar-padding);
 }
 
 .controls {
