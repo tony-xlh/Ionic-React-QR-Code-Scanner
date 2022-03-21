@@ -30,6 +30,12 @@
   stroke-width:1;
 }
 
+.focus-polygon {
+  fill: transparent;
+  stroke:white;
+  stroke-width:1;
+}
+
 .overlay {
   top: 0;
   left: 0;

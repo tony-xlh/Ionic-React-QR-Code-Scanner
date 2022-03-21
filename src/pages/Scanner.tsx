@@ -1,6 +1,6 @@
 import { IonFab, IonFabButton, IonFabList, IonIcon, IonPage } from "@ionic/react";
 import { DBR, EnumResolution, ScanResult, TextResult } from "capacitor-plugin-dynamsoft-barcode-reader";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import { addOutline, ellipsisHorizontalOutline, flashlightOutline, removeOutline} from 'ionicons/icons';
 import QRCodeScanner from "../components/QRCodeScanner";
@@ -16,12 +16,15 @@ let presetResolutions = [{label:"ask 480P",value:EnumResolution.RESOLUTION_480P}
                          {label:"ask 1080P",value:EnumResolution.RESOLUTION_1080P}]
 
 const Scanner = (props:RouteComponentProps) => {
+  const overlayRef = useRef<SVGSVGElement>(null);
   const [initialized,setInitialized] = useState(false);
   const [cameras,setCameras] = useState([] as string[]);
   const [barcodeResults,setBarcodeResults] = useState([] as TextResult[]);
   const [isActive,setIsActive] = useState(false);
   const [torchOn,setTorchOn] = useState(false);
   const [zoom,setZoom] = useState(1.0);
+  const [pressedX,setPressedX] = useState<number|undefined>(undefined);
+  const [pressedY,setPressedY] = useState<number|undefined>(undefined);
   const [scanRegion,setScanRegion] = useState({left:10,
                                                 top:20,
                                                 right:90,
@@ -153,6 +156,28 @@ const Scanner = (props:RouteComponentProps) => {
     return pointsData;
   }
 
+  const getPointsDataForFocusHint = (x:number|undefined,y:number|undefined) => {
+    if (x != undefined && y != undefined) {
+      let lr:any = {};
+      x = x*getDisplayWidth();
+      y = y*getDisplayHeight();
+      x = Math.floor(x);
+      y = Math.floor(y);
+      let padding = 50;
+      lr.x1 = x - padding;
+      lr.y1 = y - padding;
+      lr.x2 = x + padding;
+      lr.y2 = y - padding;
+      lr.x3 = x + padding;
+      lr.y3 = y + padding;
+      lr.x4 = x - padding;
+      lr.y4 = y + padding;
+      return getPointsData(lr);
+    }else{
+      return "";
+    }
+  }
+
   const handleRotation = (result:any, orientation: string, rotation:number) => {
     let width,height;
     if (orientation == "portrait") {
@@ -236,8 +261,26 @@ const Scanner = (props:RouteComponentProps) => {
     }
   }
 
+  const onOverlayClicked = (e:any) => {
+    if (overlayRef.current) {
+      let x = e.clientX / overlayRef.current?.clientWidth;
+      let y = e.clientY / overlayRef.current?.clientHeight;
+      setPressedX(x);
+      setPressedY(y);
+      DBR.setFocus({x:x,y:y});
+      setTimeout(() => {
+        setPressedX(undefined);
+        setPressedY(undefined);
+      }, 1000);
+    }
+  }
+
   const getDisplayWidth = () => {
     return parseInt(viewBox.split(" ")[2]);
+  }
+
+  const getDisplayHeight = () => {
+    return parseInt(viewBox.split(" ")[3]);
   }
 
   if (initialized == false) {
@@ -293,7 +336,9 @@ const Scanner = (props:RouteComponentProps) => {
           <svg
             viewBox={viewBox}
             className="overlay"
+            ref={overlayRef}
             xmlns="<http://www.w3.org/2000/svg>"
+            onClick={(e) => {onOverlayClicked(e)}}
           >
             {barcodeResults.map((tr,idx) => (
                   <polygon key={"poly-"+idx} xmlns="<http://www.w3.org/2000/svg>"
@@ -309,6 +354,12 @@ const Scanner = (props:RouteComponentProps) => {
                 fontSize={getDisplayWidth()/460*20}
                 >{tr.barcodeText}</text>
             ))}
+            {(pressedX!=undefined && pressedY!=undefined) &&
+              <polygon xmlns="<http://www.w3.org/2000/svg>"
+              points={getPointsDataForFocusHint(pressedX,pressedY)}
+              className="focus-polygon"
+            />
+            }
           </svg>
         </div>
         }
