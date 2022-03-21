@@ -7,7 +7,7 @@ const QRCodeScanner = (props: { isActive: boolean;
   torchOn?: boolean; 
   zoom?: number;
   scanRegion?:ScanRegion}) => {
-
+    
   useEffect(() => {
     console.log("update active");
     if (props.isActive) {

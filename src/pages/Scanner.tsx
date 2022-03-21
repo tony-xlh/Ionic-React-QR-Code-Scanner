@@ -27,7 +27,7 @@ const Scanner = (props:RouteComponentProps) => {
                                                 measuredByPercentage:1
                                                 });
   const [cameraID,setCameraID] = useState("");
-  const [resolution,setResolution] = useState(EnumResolution.RESOLUTION_720P);
+  const [cameraResolution,setCameraResolution] = useState(undefined);
   const [resolutionLabel,setResolutionLabel] = useState("");
   const [viewBox,setViewBox] = useState("0 0 1920 1080");
 
@@ -135,7 +135,7 @@ const Scanner = (props:RouteComponentProps) => {
   }
 
   const onResolutionSelected = (e: any) => {
-    setResolution(e.target.value);
+    setCameraResolution(e.target.value);
   }
 
   const onClosed = () => {
@@ -239,7 +239,7 @@ const Scanner = (props:RouteComponentProps) => {
       <QRCodeScanner 
         isActive={isActive}
         cameraID={cameraID}
-        resolution={resolution}
+        resolution={cameraResolution}
         torchOn={torchOn}
         scanRegion={scanRegion}/>
 
@@ -253,11 +253,9 @@ const Scanner = (props:RouteComponentProps) => {
             ))}
           </select>
           <select value={resolutionLabel} className="resolution-select controls" onChange={(e) => onResolutionSelected(e)}>
-            {resolution &&
-              <option value={resolution}>
-              {"got "+resolutionLabel}
-              </option>
-            }
+            <option>
+            {"got "+resolutionLabel}
+            </option>
             {presetResolutions.map((res,idx) => (
               <option key={idx} value={res.value}>
                 {res.label}
