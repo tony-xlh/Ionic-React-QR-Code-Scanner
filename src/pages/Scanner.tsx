@@ -92,7 +92,6 @@ const Scanner = (props:RouteComponentProps) => {
               setBarcodeResults(results);
             }else{
               if (results.length>0 && scanned == false) {
-                setIsActive(false);
                 scanned = true;
                 props.history.replace({ state: {results:results,active:false} });
                 props.history.goBack();
@@ -122,21 +121,18 @@ const Scanner = (props:RouteComponentProps) => {
     init();
     scanned = false;
     
-    document.addEventListener('ionBackButton', (ev:any) => {
-      ev.detail.register(10, () => {
-        setIsActive(false);
-        props.history.goBack();
-      });
-    });
+    
     return ()=>{
       console.log("unmount");
+      setIsActive(false);
       removeListeners();
+      console.log("done");
     }
   }, []);
 
   const removeListeners = () => {
-    console.log("remove listeners");
     if (frameReadListener) {
+      console.log("remove listener");
       frameReadListener.remove();
     }
     if (onPlayedListener) {
@@ -154,7 +150,6 @@ const Scanner = (props:RouteComponentProps) => {
   }
 
   const onClosed = () => {
-    setIsActive(false);
     props.history.goBack();
   }
 
