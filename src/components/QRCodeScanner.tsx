@@ -58,7 +58,8 @@ const QRCodeScanner = (props: { isActive: boolean;
 
   useEffect(() => {
     if (props.resolution != undefined) {
-      DBR.setResolution({resolution:props.resolution});
+      let res:number = Math.floor(props.resolution);
+      DBR.setResolution({resolution:res});
     }
   }, [props.resolution]);
 
