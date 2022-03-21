@@ -9,6 +9,13 @@ const QRCodeScanner = (props: { isActive: boolean;
   scanRegion?:ScanRegion}) => {
     
   useEffect(() => {
+    return ()=>{
+      console.log("unmount and stop scan");
+      DBR.stopScan();
+    }
+  }, []);
+
+  useEffect(() => {
     console.log("update active");
     if (props.isActive) {
       DBR.startScan();
