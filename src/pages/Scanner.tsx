@@ -110,11 +110,9 @@ const Scanner = (props:RouteComponentProps) => {
             updateSelectedCamera();
             setResolutionLabel(resolution);
           });
-
-          setInitialized(true);
-          loadCameras();
           setQRCodeRuntimeSettings(state.qrcodeOnly);
-          
+          loadCameras();
+          setInitialized(true);
         }
       }
     }
