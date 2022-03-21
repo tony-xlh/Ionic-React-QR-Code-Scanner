@@ -61,7 +61,8 @@ const Home = (props:RouteComponentProps) => {
           </IonItem>
           {barcodeResults.map((tr,idx) => (
             <IonItem key={idx}>
-              <IonLabel onClick={() =>{copyBarcode(tr.barcodeText)}} key={"label-"+idx}>{tr.barcodeFormat + ": " + tr.barcodeText}</IonLabel>
+              <IonLabel>{tr.barcodeFormat + ": " + tr.barcodeText}</IonLabel>
+              <IonLabel style={{color:"green"}} slot="end" onClick={() =>{copyBarcode(tr.barcodeText)}}>copy</IonLabel>
             </IonItem>
           ))}
         </IonList>
