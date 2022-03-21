@@ -32,7 +32,7 @@ const Home = (props:RouteComponentProps) => {
   }
 
   const startScan = () => {
-    props.history.push("Scanner",{continuousScan:continuousScan,qrcodeOnly:QRcodeOnly,active:true})
+    props.history.push("scanner",{continuousScan:continuousScan,qrcodeOnly:QRcodeOnly,active:true})
   }
 
   const copyBarcode = (text:string) => {

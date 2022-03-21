@@ -52,16 +52,16 @@ const Scanner = (props:RouteComponentProps) => {
     }
   }
 
-  const setQRCodeRuntimeSettings = (qrcodeOnly:boolean) => {
+  const setQRCodeRuntimeSettings = async (qrcodeOnly:boolean) => {
     console.log("qrcode only: "+qrcodeOnly);
     if (qrcodeOnly == true) {
       let template = "{\"ImageParameter\":{\"BarcodeFormatIds\":[\"BF_QR_CODE\"],\"Description\":\"\",\"Name\":\"Settings\"},\"Version\":\"3.0\"}";
       console.log(template);
-      DBR.initRuntimeSettingsWithString({template:template})
+      await DBR.initRuntimeSettingsWithString({template:template})
     } else{
       let template = "{\"ImageParameter\":{\"BarcodeFormatIds\":[\"BF_ALL\"],\"Description\":\"\",\"Name\":\"Settings\"},\"Version\":\"3.0\"}";
       console.log(template);
-      DBR.initRuntimeSettingsWithString({template:template})
+      await DBR.initRuntimeSettingsWithString({template:template})
     }
   }
 
