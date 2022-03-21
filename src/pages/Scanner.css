@@ -6,11 +6,15 @@
 .camera-select {
   top:0;
   left:0;
+  height: 20px;
 }
 
 .close-button {
   top:0;
   right:0;
+  height: 20px;
+  border: revert;
+  border-radius: revert;
 }
 
 .barcode-polygon {

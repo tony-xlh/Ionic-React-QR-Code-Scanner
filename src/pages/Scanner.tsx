@@ -16,6 +16,12 @@ const Scanner = (props:RouteComponentProps) => {
   const [barcodeResults,setBarcodeResults] = useState([] as TextResult[]);
   const [isActive,setIsActive] = useState(false);
   const [torchOn,setTorchOn] = useState(false);
+  const [scanRegion,setScanRegion] = useState({left:10,
+                                                top:20,
+                                                right:90,
+                                                bottom:65,
+                                                measuredByPercentage:1
+                                                });
   const [cameraID,setCameraID] = useState("");
   const [viewBox,setViewBox] = useState("0 0 1920 1080");
 
@@ -218,7 +224,8 @@ const Scanner = (props:RouteComponentProps) => {
       <QRCodeScanner 
         isActive={isActive}
         cameraID={cameraID}
-        torchOn={torchOn}/>
+        torchOn={torchOn}
+        scanRegion={scanRegion}/>
 
         {isActive &&
         <div>
