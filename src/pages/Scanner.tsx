@@ -215,9 +215,8 @@ const Scanner = (props:RouteComponentProps) => {
     setViewBox(box);
   }
 
-  const getDisplayHeight = () => {
-    console.log("viewbox"+viewBox);
-    return parseInt(viewBox.split("x")[3]);
+  const getDisplayWidth = () => {
+    return parseInt(viewBox.split(" ")[2]);
   }
 
   if (initialized == false) {
@@ -258,7 +257,7 @@ const Scanner = (props:RouteComponentProps) => {
                   x={tr.x1}
                   y={tr.y1}
                   fill="red"
-                  fontSize={getDisplayHeight()/460*20}
+                  fontSize={getDisplayWidth()/460*20}
                   >{tr.barcodeText}</text>
               ))}
             </svg>
