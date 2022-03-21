@@ -4,12 +4,14 @@
 }
 
 .camera-select {
+  top:0;
   top:env(safe-area-inset-top);
   left:0;
   height: 20px;
 }
 
 .resolution-select {
+  top:20px;
   top:calc(env(safe-area-inset-top) + 20px);
   left:0;
   height: 20px;
@@ -17,6 +19,7 @@
 
 
 .close-button {
+  top:0;
   top:env(safe-area-inset-top);
   right:0;
   height: 20px;
