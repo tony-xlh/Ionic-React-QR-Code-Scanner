@@ -281,7 +281,7 @@ const Scanner = (props:RouteComponentProps) => {
   }
 
   return (
-    <IonPage style={{ zIndex:999 }}>
+    <IonPage className="scanner">
       <QRCodeScanner 
         isActive={isActive}
         cameraID={cameraID}
