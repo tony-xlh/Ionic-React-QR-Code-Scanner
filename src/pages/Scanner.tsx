@@ -1,7 +1,8 @@
-import { IonPage } from "@ionic/react";
+import { IonFab, IonFabButton, IonFabList, IonIcon, IonPage } from "@ionic/react";
 import { DBR, EnumResolution, ScanResult, TextResult } from "capacitor-plugin-dynamsoft-barcode-reader";
 import { useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router";
+import { addOutline, ellipsisHorizontalOutline, flashlightOutline, removeOutline} from 'ionicons/icons';
 import QRCodeScanner from "../components/QRCodeScanner";
 import "./Scanner.css"
 
@@ -20,6 +21,7 @@ const Scanner = (props:RouteComponentProps) => {
   const [barcodeResults,setBarcodeResults] = useState([] as TextResult[]);
   const [isActive,setIsActive] = useState(false);
   const [torchOn,setTorchOn] = useState(false);
+  const [zoom,setZoom] = useState(1.0);
   const [scanRegion,setScanRegion] = useState({left:10,
                                                 top:20,
                                                 right:90,
@@ -226,6 +228,14 @@ const Scanner = (props:RouteComponentProps) => {
     setViewBox(box);
   }
 
+  const toggleTorch = () => {
+    if (torchOn == false) {
+      setTorchOn(true);
+    }else{
+      setTorchOn(false);
+    }
+  }
+
   const getDisplayWidth = () => {
     return parseInt(viewBox.split(" ")[2]);
   }
@@ -239,6 +249,7 @@ const Scanner = (props:RouteComponentProps) => {
       <QRCodeScanner 
         isActive={isActive}
         cameraID={cameraID}
+        zoom={zoom}
         resolution={cameraResolution}
         torchOn={torchOn}
         scanRegion={scanRegion}/>
@@ -263,6 +274,22 @@ const Scanner = (props:RouteComponentProps) => {
             ))}
           </select>
           <button className="close-button controls" onClick={onClosed}>Close</button>
+          <IonFab vertical="bottom" horizontal="start" slot="fixed">
+            <IonFabButton>
+              <IonIcon icon={ellipsisHorizontalOutline} />
+            </IonFabButton>
+            <IonFabList side="top">
+              <IonFabButton  onClick={toggleTorch}>
+                <IonIcon icon={flashlightOutline} />
+              </IonFabButton>
+              <IonFabButton onClick={() => {setZoom(1)}}>
+                <IonIcon icon={removeOutline} />
+              </IonFabButton>
+              <IonFabButton onClick={() => {setZoom(2.5)}}>
+                <IonIcon icon={addOutline} />
+              </IonFabButton>
+            </IonFabList>
+          </IonFab>
           <svg
             viewBox={viewBox}
             className="overlay"
