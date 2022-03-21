@@ -239,28 +239,28 @@ const Scanner = (props:RouteComponentProps) => {
                 {camera}
               </option>
             ))}
-            </select>
-            <button className="close-button controls" onClick={onClosed}>Close</button>
-            <svg
-              viewBox={viewBox}
-              className="overlay"
-              xmlns="<http://www.w3.org/2000/svg>"
-            >
-              {barcodeResults.map((tr,idx) => (
-                    <polygon key={"poly-"+idx} xmlns="<http://www.w3.org/2000/svg>"
-                    points={getPointsData(tr)}
-                    className="barcode-polygon"
-                    />
-                ))}
-              {barcodeResults.map((tr,idx) => (
-                  <text key={"text-"+idx} xmlns="<http://www.w3.org/2000/svg>"
-                  x={tr.x1}
-                  y={tr.y1}
-                  fill="red"
-                  fontSize={getDisplayWidth()/460*20}
-                  >{tr.barcodeText}</text>
+          </select>
+          <button className="close-button controls" onClick={onClosed}>Close</button>
+          <svg
+            viewBox={viewBox}
+            className="overlay"
+            xmlns="<http://www.w3.org/2000/svg>"
+          >
+            {barcodeResults.map((tr,idx) => (
+                  <polygon key={"poly-"+idx} xmlns="<http://www.w3.org/2000/svg>"
+                  points={getPointsData(tr)}
+                  className="barcode-polygon"
+                  />
               ))}
-            </svg>
+            {barcodeResults.map((tr,idx) => (
+                <text key={"text-"+idx} xmlns="<http://www.w3.org/2000/svg>"
+                x={tr.x1}
+                y={tr.y1}
+                fill="red"
+                fontSize={getDisplayWidth()/460*20}
+                >{tr.barcodeText}</text>
+            ))}
+          </svg>
         </div>
         }
       
