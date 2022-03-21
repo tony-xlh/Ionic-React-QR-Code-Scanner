@@ -79,12 +79,7 @@ const Scanner = (props:RouteComponentProps) => {
       console.log(result);
       if (result) {
         if (result.success == true) {
-          if (frameReadListener) {
-            frameReadListener.remove();
-          }
-          if (onPlayedListener) {
-            onPlayedListener.remove();
-          }
+          removeListeners();
           frameReadListener = await DBR.addListener('onFrameRead', async (scanResult:ScanResult) => {
             let results = scanResult["results"];
             if (state.continuousScan == true) {
@@ -135,8 +130,19 @@ const Scanner = (props:RouteComponentProps) => {
     });
     return ()=>{
       console.log("unmount");
+      removeListeners();
     }
   }, []);
+
+  const removeListeners = () => {
+    console.log("remove listeners");
+    if (frameReadListener) {
+      frameReadListener.remove();
+    }
+    if (onPlayedListener) {
+      onPlayedListener.remove();
+    }
+  }
   
   const onCameraSelected = (e: any) => {
     selectedCam = e.target.value;
