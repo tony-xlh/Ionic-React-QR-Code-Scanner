@@ -11,6 +11,8 @@ Scanning functions:
 2. Resolution settings
 3. Barcode overlays
 4. Regional scanning
+5. Zooming
+6. Torch
 
 Screenshot:
 
