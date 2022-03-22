@@ -13,6 +13,7 @@ Scanning functions:
 4. Regional scanning
 5. Zooming
 6. Torch
+7. Touch to focus
 
 Screenshot:
 
