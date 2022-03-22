@@ -1,0 +1,21 @@
+/*!
+ * Dynamsoft JavaScript Library
+ * @product Dynamsoft Barcode Reader JS Edition
+ * @website http://www.dynamsoft.com
+ * @copyright Copyright 2022, Dynamsoft Corporation
+ * @author Dynamsoft
+ * @version 8.8.7 (js 20220125)
+ * @fileoverview Dynamsoft JavaScript Library for Barcode Reader
+ * More info on DBR JS: https://www.dynamsoft.com/barcode-reader/sdk-javascript/
+ */
+
+/*!
+ * Dynamsoft JavaScript Library
+ * @product Dynamsoft Camera Enhancer JS Edition
+ * @website http://www.dynamsoft.com
+ * @copyright Copyright 2021, Dynamsoft Corporation
+ * @author Dynamsoft
+ * @version 2.0.3 (js 20210628)
+ * @fileoverview Dynamsoft JavaScript Library for Camera Enhancer
+ * More info on DBR JS: https://www.dynamsoft.com/barcode-reader/sdk-javascript/
+ */
