@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Ionic-React-QR-Code-Scanner/static/css/main.9022d187.css",
-    "main.js": "/Ionic-React-QR-Code-Scanner/static/js/main.999ceb39.js",
+    "main.js": "/Ionic-React-QR-Code-Scanner/static/js/main.cbf30909.js",
     "static/js/3630.b3410f25.chunk.js": "/Ionic-React-QR-Code-Scanner/static/js/3630.b3410f25.chunk.js",
     "static/js/3107.b1574d00.chunk.js": "/Ionic-React-QR-Code-Scanner/static/js/3107.b1574d00.chunk.js",
     "static/js/7397.d9e06a39.chunk.js": "/Ionic-React-QR-Code-Scanner/static/js/7397.d9e06a39.chunk.js",
@@ -76,13 +76,13 @@
     "static/js/5215.8b34fa26.chunk.js": "/Ionic-React-QR-Code-Scanner/static/js/5215.8b34fa26.chunk.js",
     "static/js/8841.bfae0571.chunk.js": "/Ionic-React-QR-Code-Scanner/static/js/8841.bfae0571.chunk.js",
     "static/js/1186.ef7f781e.chunk.js": "/Ionic-React-QR-Code-Scanner/static/js/1186.ef7f781e.chunk.js",
-    "static/js/2076.674e58e2.chunk.js": "/Ionic-React-QR-Code-Scanner/static/js/2076.674e58e2.chunk.js",
+    "static/js/2076.bc453f0e.chunk.js": "/Ionic-React-QR-Code-Scanner/static/js/2076.bc453f0e.chunk.js",
     "static/js/9377.6ce11ad0.chunk.js": "/Ionic-React-QR-Code-Scanner/static/js/9377.6ce11ad0.chunk.js",
     "static/js/471.729d00dd.chunk.js": "/Ionic-React-QR-Code-Scanner/static/js/471.729d00dd.chunk.js",
     "service-worker.js": "/Ionic-React-QR-Code-Scanner/service-worker.js",
     "index.html": "/Ionic-React-QR-Code-Scanner/index.html",
     "main.9022d187.css.map": "/Ionic-React-QR-Code-Scanner/static/css/main.9022d187.css.map",
-    "main.999ceb39.js.map": "/Ionic-React-QR-Code-Scanner/static/js/main.999ceb39.js.map",
+    "main.cbf30909.js.map": "/Ionic-React-QR-Code-Scanner/static/js/main.cbf30909.js.map",
     "3630.b3410f25.chunk.js.map": "/Ionic-React-QR-Code-Scanner/static/js/3630.b3410f25.chunk.js.map",
     "3107.b1574d00.chunk.js.map": "/Ionic-React-QR-Code-Scanner/static/js/3107.b1574d00.chunk.js.map",
     "7397.d9e06a39.chunk.js.map": "/Ionic-React-QR-Code-Scanner/static/js/7397.d9e06a39.chunk.js.map",
@@ -157,12 +157,12 @@
     "5215.8b34fa26.chunk.js.map": "/Ionic-React-QR-Code-Scanner/static/js/5215.8b34fa26.chunk.js.map",
     "8841.bfae0571.chunk.js.map": "/Ionic-React-QR-Code-Scanner/static/js/8841.bfae0571.chunk.js.map",
     "1186.ef7f781e.chunk.js.map": "/Ionic-React-QR-Code-Scanner/static/js/1186.ef7f781e.chunk.js.map",
-    "2076.674e58e2.chunk.js.map": "/Ionic-React-QR-Code-Scanner/static/js/2076.674e58e2.chunk.js.map",
+    "2076.bc453f0e.chunk.js.map": "/Ionic-React-QR-Code-Scanner/static/js/2076.bc453f0e.chunk.js.map",
     "9377.6ce11ad0.chunk.js.map": "/Ionic-React-QR-Code-Scanner/static/js/9377.6ce11ad0.chunk.js.map",
     "471.729d00dd.chunk.js.map": "/Ionic-React-QR-Code-Scanner/static/js/471.729d00dd.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.9022d187.css",
-    "static/js/main.999ceb39.js"
+    "static/js/main.cbf30909.js"
   ]
 }
