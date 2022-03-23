@@ -1,4 +1,4 @@
-import { IonButton, IonCheckbox, IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonTitle, IonToolbar, useIonToast } from "@ionic/react";
+import { IonButton, IonCheckbox, IonContent, IonHeader, IonItem, IonLabel, IonList, IonListHeader, IonPage, IonTitle, IonToolbar, useIonToast } from "@ionic/react";
 import { TextResult } from "capacitor-plugin-dynamsoft-barcode-reader";
 import { useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router";
@@ -59,9 +59,14 @@ const Home = (props:RouteComponentProps) => {
             <IonLabel>Scan QR Code Only</IonLabel>
             <IonCheckbox slot="end" value="Scan QR Code Only" checked={QRcodeOnly} onIonChange={(e) => handleOption(e)}/>
           </IonItem>
+          {(barcodeResults.length>0) &&
+            <IonListHeader>
+              <IonLabel>Results:</IonLabel>
+            </IonListHeader>
+          }
           {barcodeResults.map((tr,idx) => (
             <IonItem key={idx}>
-              <IonLabel>{tr.barcodeFormat + ": " + tr.barcodeText}</IonLabel>
+              <IonLabel>{(idx+1) + ". " + tr.barcodeFormat + ": " + tr.barcodeText}</IonLabel>
               <IonLabel style={{color:"green"}} slot="end" onClick={() =>{copyBarcode(tr.barcodeText)}}>copy</IonLabel>
             </IonItem>
           ))}
