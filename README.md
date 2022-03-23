@@ -17,6 +17,6 @@ Scanning functions:
 
 Screenshot:
 
-![](https://github.com/xulihang/Ionic-React-QR-Code-Scanner/releases/download/v1.0.1/ionic.jpg)
+![](https://github.com/xulihang/Ionic-React-QR-Code-Scanner/releases/download/v1.1.0/ionic.jpg)
 
 
