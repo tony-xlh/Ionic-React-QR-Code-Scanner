@@ -82,12 +82,14 @@ const Scanner = (props:RouteComponentProps) => {
           removeListeners();
           frameReadListener = await DBR.addListener('onFrameRead', async (scanResult:ScanResult) => {
             let results = scanResult["results"];
+            if (scanResult.deviceOrientation) {
+              updateViewBox(scanResult.deviceOrientation);
+            }
             if (state.continuousScan == true) {
               if (scanResult.frameOrientation != undefined && scanResult.deviceOrientation != undefined) {
                 for (let index = 0; index < results.length; index++) {
                   handleRotation(results[index], scanResult.deviceOrientation, scanResult.frameOrientation);
                 }
-                updateViewBox(scanResult.deviceOrientation);
               }
               setBarcodeResults(results);
             }else{
