@@ -1,5 +1,5 @@
 import { DBR, ScanRegion } from 'capacitor-plugin-dynamsoft-barcode-reader';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const QRCodeScanner = (props: { isActive: boolean; 
   cameraID?: string;
@@ -8,15 +8,18 @@ const QRCodeScanner = (props: { isActive: boolean;
   zoom?: number;
   scanRegion?:ScanRegion}) => {
     
+  const [mounted,setMounted] = useState(false);
   useEffect(() => {
+    console.log("mount scanner");
+    setMounted(true);
     return ()=>{
       console.log("unmount and stop scan");
+      setMounted(false);
       DBR.stopScan();
     }
   }, []);
 
   useEffect(() => {
-    console.log("update active");
     if (props.isActive) {
       DBR.startScan();
     }else{
@@ -25,7 +28,7 @@ const QRCodeScanner = (props: { isActive: boolean;
   }, [props.isActive]);
 
   useEffect(() => {
-    if (props.torchOn != undefined) {
+    if (props.torchOn != undefined && mounted) {
       if (props.torchOn == true) {
         console.log("torch on");
         DBR.toggleTorch({"on":true});
@@ -37,7 +40,7 @@ const QRCodeScanner = (props: { isActive: boolean;
   }, [props.torchOn]);
 
   useEffect(() => {
-    if (props.zoom != undefined) {
+    if (props.zoom != undefined && mounted) {
       DBR.setZoom({factor:props.zoom});
     }
   }, [props.zoom]);
@@ -64,7 +67,7 @@ const QRCodeScanner = (props: { isActive: boolean;
   }, [props.scanRegion]);
 
   useEffect(() => {
-    if (props.resolution != undefined) {
+    if (props.resolution != undefined && mounted) {
       let res:number = Math.floor(props.resolution);
       DBR.setResolution({resolution:res});
     }
