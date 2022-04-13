@@ -15,6 +15,8 @@ Scanning functions:
 6. Torch
 7. Touch to focus
 
+[Online demo](https://6256772ab513e24c326547ad--imaginative-crisp-e281c3.netlify.app/home)
+
 Screenshot:
 
 ![](https://github.com/xulihang/Ionic-React-QR-Code-Scanner/releases/download/v1.1.0/ionic.jpg)
