@@ -99,7 +99,7 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = (props:QRCodeScannerProps) =
   
   return (
     <>
-      {initialized && (
+      {!initialized && (
         <div>Initializing...</div>
       )}
       <div ref={container}>
