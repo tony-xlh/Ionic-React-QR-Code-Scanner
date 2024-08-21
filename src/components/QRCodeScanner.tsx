@@ -40,6 +40,11 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = (props:QRCodeScannerProps) =
       setInitialized(true);
     }
     init();
+    return ()=>{
+      console.log("unmount and stop scan");
+      stopDecoding();
+      CameraPreview.stopCamera();
+    }
   }, []);
 
   const startDecoding = () => {
